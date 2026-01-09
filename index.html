@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,22 +8,36 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://www.dentacare-example.com/">
     
+    <!-- NOTE: In a production environment, move CSS to style.css and JS to script.js for caching benefits. -->
+
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="DentaCare - Modern Dentistry in New York">
     <meta property="og:description" content="Experience modern dentistry with comprehensive care and painless treatments.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200">
     <meta property="og:url" content="https://www.dentacare-example.com/">
+    <meta property="og:site_name" content="DentaCare">
+    <meta property="og:locale" content="en_US">
     
-    <!-- Favicon -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DentaCare - Modern Dentistry">
+    <meta name="twitter:description" content="Experience modern dentistry with comprehensive care.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200">
+    
+    <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦷</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%232563eb%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2270%22>🦷</text></svg>">
     <meta name="theme-color" content="#2563eb">
     
-    <!-- Fonts -->
+    <!-- Fonts (Preloaded) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     
+    <!-- JS Fallback for Progressive Enhancement -->
+    <script>document.documentElement.classList.remove('no-js');</script>
+
     <style>
         /* --- 1. Variables & Reset --- */
         :root {
@@ -33,11 +47,13 @@
             --primary-light: #eff6ff;
             --secondary: #0f172a;
             --text-main: #1e293b;
-            --text-muted: #475569; /* Dark gray for light backgrounds */
+            --text-muted: #475569; 
+            --text-light: #94a3b8; /* Footer text */
             --bg-body: #ffffff;
             --bg-alt: #f8fafc;
             --border: #e2e8f0;
             --white: #ffffff;
+            --error: #ef4444;
             
             /* Typography */
             --font-main: 'Inter', sans-serif;
@@ -71,6 +87,7 @@
             scroll-behavior: smooth; 
             scroll-padding-top: calc(var(--nav-height) + 1rem); 
             -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
         }
         
         body { font-family: var(--font-main); line-height: 1.6; color: var(--text-main); background: var(--bg-body); }
@@ -98,6 +115,9 @@
         .mb-lg { margin-bottom: var(--spacing-lg); }
         .underline { text-decoration: underline; }
         
+        /* Screen Reader Only */
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
+        
         /* --- 3. Components --- */
         
         /* Navigation */
@@ -110,12 +130,15 @@
         .nav-links { display: none; gap: 2rem; align-items: center; list-style: none; margin: 0; padding: 0; }
         @media(min-width: 768px) { .nav-links { display: flex; } }
         
-        .nav-link { font-size: var(--text-sm); font-weight: 500; color: var(--text-muted); transition: color 0.2s; padding: 0.5rem 0; display: inline-block; }
+        .nav-link { font-size: var(--text-sm); font-weight: 500; color: var(--text-muted); transition: color 0.2s; padding: 0.5rem 0; display: inline-block; position: relative; }
         .nav-link:hover { color: var(--primary); }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--primary); transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
         
         /* Buttons */
         .btn { padding: 0.625rem 1.25rem; background: var(--primary); color: var(--white); font-weight: 600; border-radius: var(--radius-md); font-size: var(--text-sm); transition: all 0.2s; display: inline-block; }
         .btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(37,99,235,0.3); }
+        .btn:active { transform: translateY(0); }
         .btn-full { width: 100%; padding: 0.875rem; }
         
         .menu-btn { display: block; padding: 0.5rem; color: var(--text-muted); }
@@ -143,7 +166,7 @@
         .hero-content { position: relative; z-index: 10; text-align: center; padding: 5rem 1rem 0; max-width: 64rem; margin: 0 auto; }
         .hero-title { font-size: var(--text-5xl); font-weight: 700; color: var(--white); margin-bottom: 2rem; line-height: 1.1; }
         .hero-grad { background: linear-gradient(to right, #bfdbfe, #a5f3fc, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .hero-subtitle { font-size: var(--text-xl); color: var(--border); margin-bottom: 2.5rem; max-width: 42rem; margin-left: auto; margin-right: auto; }
+        .hero-subtitle { font-size: var(--text-xl); color: #e2e8f0; margin-bottom: 2.5rem; max-width: 42rem; margin-left: auto; margin-right: auto; }
         .hero-btns { display: flex; flex-direction: column; gap: 1rem; align-items: center; margin-bottom: 4rem; }
         @media(min-width: 640px) { .hero-btns { flex-direction: row; justify-content: center; } }
         
@@ -157,7 +180,7 @@
         .mr-xs { margin-right: 0.5rem; }
 
         /* Sections */
-        section { padding: var(--spacing-xl) 0; }
+        section { padding: var(--spacing-xl) 0; content-visibility: auto; contain-intrinsic-size: 800px; }
         @media(max-width: 768px) { section { padding: var(--spacing-lg) 0; } }
         
         .section-title { font-size: var(--text-3xl); font-weight: 700; margin-bottom: 1rem; color: var(--secondary); }
@@ -174,9 +197,9 @@
         .items-center { align-items: center; }
 
         /* Cards & Feature Boxes */
-        .card { padding: 2rem; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border); transition: all 0.3s; }
-        .card:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); }
-        .card-icon { width: 3.5rem; height: 3.5rem; background: var(--primary-light); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; transition: background 0.3s; }
+        .card { padding: 2rem; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border); transition: all 0.3s; height: 100%; display: flex; flex-direction: column; }
+        .card:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); transform: translateY(-4px); }
+        .card-icon { width: 3.5rem; height: 3.5rem; background: var(--primary-light); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; transition: background 0.3s; flex-shrink: 0; }
         .card-icon svg { width: 1.75rem; height: 1.75rem; color: var(--primary); transition: color 0.3s; }
         .card:hover .card-icon { background: var(--primary); }
         .card:hover .card-icon svg { color: var(--white); }
@@ -189,7 +212,7 @@
         .feature-icon-wrap svg { width: 1.5rem; height: 1.5rem; color: var(--primary); }
         
         /* Team */
-        .team-img { border-radius: 0.75rem; overflow: hidden; margin-bottom: 1rem; box-shadow: var(--shadow-sm); aspect-ratio: 4/5; }
+        .team-img { border-radius: 0.75rem; overflow: hidden; margin-bottom: 1rem; box-shadow: var(--shadow-sm); aspect-ratio: 4/5; background: #e2e8f0; }
         .team-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
         .team-img:hover img { transform: scale(1.05); }
         .role { color: var(--primary); font-size: var(--text-sm); font-weight: 500; margin: 0.5rem 0; }
@@ -209,55 +232,74 @@
         .contact-circle { width: 3rem; height: 3rem; border-radius: 50%; background: #dbeafe; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .contact-circle svg { width: 1.5rem; height: 1.5rem; color: var(--primary); }
         .contact-label { font-weight: 600; margin-bottom: 0.25rem; }
-        /* FIXED: Using var(--text-muted) here works because it's on a white background (Contrast 7.3:1) */
         .contact-sub { font-size: 0.75rem; margin-top: 0.25rem; color: var(--text-muted); }
         
         /* Form */
         form { background: var(--white); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
         label { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; }
-        input, select, textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: var(--text-sm); transition: all 0.2s; font-family: inherit; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        input, select, textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: var(--text-sm); transition: all 0.2s; font-family: inherit; background: #fff; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.25); }
         .form-row { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         @media(min-width: 640px) { .form-row { grid-template-columns: repeat(2, 1fr); } }
         .form-group { margin-bottom: 1.5rem; }
 
         /* Footer */
-        footer { background: var(--secondary); color: #cbd5e1; padding: 4rem 0 2rem; border-top: 1px solid var(--text-main); }
+        footer { background: var(--secondary); color: var(--text-light); padding: 4rem 0 2rem; border-top: 1px solid var(--text-main); }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
         .footer-logo { color: var(--white); margin-bottom: 1rem; display: inline-flex; }
-        
-        /* FIXED: Using light gray for dark footer background (Contrast 11:1) */
-        .footer-desc { color: #cbd5e1; font-size: var(--text-sm); line-height: 1.6; }
+        .footer-desc { color: var(--text-light); font-size: var(--text-sm); line-height: 1.6; }
         .footer-title { color: var(--white); font-weight: 600; margin-bottom: 1rem; font-size: var(--text-base); }
         
         .footer-list { list-style: none; padding: 0; margin: 0; }
         .footer-list li { margin-bottom: 0.5rem; }
-        .footer-link { display: inline-block; padding: 0.25rem 0; color: #cbd5e1; transition: color 0.2s; font-size: var(--text-sm); }
+        .footer-link { display: inline-block; padding: 0.25rem 0; color: var(--text-light); transition: color 0.2s; font-size: var(--text-sm); }
         .footer-link:hover { color: #60a5fa; }
         
-        .text-alert { color: #ef4444; }
+        .text-alert { color: var(--error); }
         .social-box { display: flex; gap: 0.75rem; }
         .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; background: var(--text-main); border-radius: 50%; color: #e2e8f0; transition: all 0.2s; }
         .social-btn:hover { background: var(--primary); color: var(--white); transform: translateY(-2px); }
         
-        /* FIXED: The final bug! Changed from var(--text-muted) to #cbd5e1 to be visible on dark background. */
-        .footer-copy { padding-top: 2rem; border-top: 1px solid var(--text-main); text-align: center; font-size: 0.875rem; color: #cbd5e1; }
+        .footer-copy { padding-top: 2rem; border-top: 1px solid var(--text-main); text-align: center; font-size: 0.875rem; color: var(--text-light); }
 
         /* Animations & Utilities */
+        /* Intersection Observer Animation Classes */
+        .reveal-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .reveal-up.active { opacity: 1; transform: translateY(0); }
+        
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        
+        /* Initial Hero Load Animation */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .fade-in { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
+        .hero-animate { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
         
-        .skip { position: absolute; left: -9999px; z-index: 999; padding: 1rem 1.5rem; background: var(--primary); color: var(--white); font-weight: 600; border-radius: var(--radius-md); }
+        .skip { position: absolute; left: -9999px; z-index: 999; padding: 1rem 1.5rem; background: var(--primary); color: var(--white); font-weight: 600; border-radius: var(--radius-md); text-decoration: none; }
         .skip:focus { left: 1rem; top: 1rem; }
         
+        /* Accessibility Reduced Motion */
         @media(prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+            .reveal-up { opacity: 1; transform: none; }
         }
         :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 0.25rem; }
+
+        /* Print Styles */
+        @media print {
+            nav, .skip, .hero-overlay, .btn, .social-box, .footer-grid > div:last-child { display: none !important; }
+            body { background: white; color: black; }
+            .hero, section { padding: 1rem 0; min-height: auto; }
+            .hero-title { color: black; font-size: 2rem; }
+            .hero-subtitle { color: #333; }
+            .hero-content { padding-top: 0; }
+            .card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; }
+            a[href^="http"]:after { content: " (" attr(href) ")"; font-size: 0.8em; }
+            footer { background: white; color: black; border-top: 1px solid #ccc; padding: 2rem 0; }
+            .footer-title, .footer-desc, .footer-link, .footer-copy { color: black; }
+            .hero-grad { background: none; -webkit-text-fill-color: black; }
+        }
     </style>
     
     <script type="application/ld+json">
@@ -331,6 +373,7 @@
     
     <main id="main">
         <section class="hero" aria-labelledby="hero-h">
+            <!-- Priority Hints for LCP -->
             <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1920" 
                  srcset="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=640 640w,
                          https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1280 1280w,
@@ -345,16 +388,16 @@
             <div class="hero-overlay" aria-hidden="true"></div>
             
             <div class="hero-content">
-                <h1 id="hero-h" class="hero-title fade-in">
+                <h1 id="hero-h" class="hero-title hero-animate">
                     A healthy smile is<br>
                     <span class="hero-grad">Your confidence.</span>
                 </h1>
                 
-                <p class="hero-subtitle fade-in delay-1">
+                <p class="hero-subtitle hero-animate delay-100">
                     Experience modern dentistry in a friendly atmosphere. Comprehensive care, painless treatments, and a team you can trust.
                 </p>
                 
-                <div class="hero-btns fade-in delay-2">
+                <div class="hero-btns hero-animate delay-200">
                     <a href="#contact" class="btn-hero btn-hero-1">
                         Book Online
                         <svg class="icon-sm ml-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -374,7 +417,7 @@
         <section id="about" class="bg-white" aria-labelledby="about-h">
             <div class="container">
                 <div class="grid grid-2 items-center">
-                    <div class="about-img-wrap">
+                    <div class="about-img-wrap reveal-up">
                         <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=800" 
                              srcset="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=400 400w,
                                      https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=800 800w,
@@ -387,12 +430,12 @@
                              loading="lazy">
                     </div>
                     
-                    <div>
+                    <div class="reveal-up delay-100">
                         <h2 id="about-h" class="section-title">About DentaCare</h2>
                         <p class="section-subtitle mb-sm">
                             Our mission is to change the perception of dental visits. At DentaCare, we combine advanced medical technology with empathy and an individual approach to every patient.
                         </p>
-                        <p class="text-muted mb-md font-size-base">
+                        <p class="text-muted mb-md">
                             With over 15 years of experience and 500+ satisfied patients, we're New York's most trusted dental clinic.
                         </p>
                         
@@ -423,13 +466,13 @@
         
         <section id="services" class="bg-alt" aria-labelledby="services-h">
             <div class="container">
-                <div class="text-center max-w-md">
+                <div class="text-center max-w-md reveal-up">
                     <h2 id="services-h" class="section-title">Comprehensive Treatment</h2>
                     <p class="section-subtitle">We offer a full range of dental services for the whole family.</p>
                 </div>
                 
                 <div class="grid grid-3">
-                    <article class="card">
+                    <article class="card reveal-up">
                         <div class="card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <circle cx="12" cy="12" r="10"/>
@@ -439,7 +482,7 @@
                         <p class="text-muted text-sm">Prevention and treatment of cavities using composite fillings.</p>
                     </article>
                     
-                    <article class="card">
+                    <article class="card reveal-up delay-100">
                         <div class="card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -449,7 +492,7 @@
                         <p class="text-muted text-sm">Whitening, veneers, and bonding for a confident smile.</p>
                     </article>
                     
-                    <article class="card">
+                    <article class="card reveal-up delay-200">
                         <div class="card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
@@ -459,7 +502,7 @@
                         <p class="text-muted text-sm">Microscopic endodontics with precision and care.</p>
                     </article>
                     
-                    <article class="card">
+                    <article class="card reveal-up">
                         <div class="card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <path d="M12 3a9 9 0 0 0-9 9v2a9 9 0 0 0 9 9 9 9 0 0 0 9-9v-2a9 9 0 0 0-9-9z"/>
@@ -469,7 +512,7 @@
                         <p class="text-muted text-sm">Braces and aligners for children and adults.</p>
                     </article>
                     
-                    <article class="card">
+                    <article class="card reveal-up delay-100">
                         <div class="card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <circle cx="12" cy="12" r="1"/>
@@ -479,7 +522,7 @@
                         <p class="text-muted text-sm">Premium titanium implants with lifetime warranty.</p>
                     </article>
                     
-                    <article class="card">
+                    <article class="card reveal-up delay-200">
                         <div class="card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <path d="M9 2v6m6-6v6"/>
@@ -494,11 +537,13 @@
         
         <section id="team" class="bg-white" aria-labelledby="team-h">
             <div class="container">
-                <h2 id="team-h" class="section-title">Our Expert Team</h2>
-                <p class="section-subtitle">Specialists with a passion for dental excellence.</p>
+                <div class="reveal-up">
+                    <h2 id="team-h" class="section-title">Our Expert Team</h2>
+                    <p class="section-subtitle">Specialists with a passion for dental excellence.</p>
+                </div>
                 
                 <div class="grid grid-4">
-                    <article>
+                    <article class="reveal-up">
                         <div class="team-img">
                             <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&amp;fit=crop&amp;q=80&amp;w=400" 
                                  alt="Dr. Anna Smith, Orthodontist" 
@@ -511,7 +556,7 @@
                         <p class="text-muted text-sm">Aligner treatment specialist with 10+ years experience.</p>
                     </article>
                     
-                    <article>
+                    <article class="reveal-up delay-100">
                         <div class="team-img">
                             <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&amp;fit=crop&amp;q=80&amp;w=400" 
                                  alt="Dr. Peter Jones, Surgeon" 
@@ -524,7 +569,7 @@
                         <p class="text-muted text-sm">Expert in complex implantation procedures.</p>
                     </article>
                     
-                    <article>
+                    <article class="reveal-up delay-200">
                         <div class="team-img">
                             <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&amp;fit=crop&amp;q=80&amp;w=400" 
                                  alt="Dr. Maria Davis, Cosmetic Dentistry" 
@@ -537,7 +582,7 @@
                         <p class="text-muted text-sm">Creates stunning smile transformations.</p>
                     </article>
                     
-                    <article>
+                    <article class="reveal-up">
                         <div class="team-img">
                             <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&amp;fit=crop&amp;q=80&amp;w=400" 
                                  alt="Dr. Thomas Wilson, Endodontics" 
@@ -555,12 +600,12 @@
         
         <section id="pricing" class="bg-alt" aria-labelledby="pricing-h">
             <div class="container max-w-lg">
-                <div class="text-center mb-md">
+                <div class="text-center mb-md reveal-up">
                     <h2 id="pricing-h" class="section-title">Transparent Pricing</h2>
                     <p class="text-muted text-sm">Final estimates provided during consultation. Insurance accepted.</p>
                 </div>
                 
-                <div class="price-box">
+                <div class="price-box reveal-up delay-100">
                     <div class="price-content">
                         <div class="price-item"><span class="price-name">Dental Consultation</span><span class="price-val">$50</span></div>
                         <div class="price-item"><span class="price-name">Composite Filling</span><span class="price-val">from $80</span></div>
@@ -579,7 +624,7 @@
         <section id="contact" class="bg-white" aria-labelledby="contact-h">
             <div class="container">
                 <div class="grid grid-2">
-                    <div>
+                    <div class="reveal-up">
                         <h2 id="contact-h" class="section-title">Get In Touch</h2>
                         <p class="section-subtitle">Call, email, or visit us. We're here to help.</p>
                         
@@ -592,7 +637,6 @@
                                 </div>
                                 <div>
                                     <h3 class="contact-label">Address</h3>
-                                    <!-- Semantic Address Tag -->
                                     <address class="text-muted text-sm">
                                         123 Health St., Suite 4<br>
                                         New York, NY 10001
@@ -628,7 +672,13 @@
                         </div>
                     </div>
                     
-                    <form onsubmit="event.preventDefault();alert('Thank you! This is a demo form.')" aria-label="Contact form">
+                    <form id="bookingForm" class="reveal-up delay-100" aria-label="Contact form">
+                        <!-- Honeypot for spam bots (Hidden) -->
+                        <div class="sr-only">
+                            <label for="honeypot">Do not fill this out if you are human</label>
+                            <input type="text" name="honeypot" id="honeypot" tabindex="-1">
+                        </div>
+
                         <div class="form-row">
                             <div>
                                 <label for="name">Full Name</label>
@@ -702,14 +752,14 @@
                     <h3 class="footer-title">Follow Us</h3>
                     <ul class="social-box footer-list">
                         <li>
-                            <a href="#" class="social-btn" aria-label="Follow us on Facebook">
+                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Follow us on Facebook">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                                 </svg>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="social-btn" aria-label="Follow us on Instagram">
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Follow us on Instagram">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
@@ -717,7 +767,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="social-btn" aria-label="Follow us on LinkedIn">
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Follow us on LinkedIn">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
                                     <circle cx="4" cy="4" r="2"/>
@@ -729,7 +779,8 @@
             </div>
             
             <div class="footer-copy">
-                <p>&copy; 2026 DentaCare. All rights reserved.</p>
+                <!-- Year is dynamically set by JS -->
+                <p>&copy; <span id="year"></span> DentaCare. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -739,15 +790,39 @@
             const btn = document.getElementById('menuBtn');
             const nav = document.getElementById('navLinks');
             const links = document.querySelectorAll('.nav-link, .btn');
+            const form = document.getElementById('bookingForm');
 
-            // Toggle Mobile Menu
+            // 1. Dynamic Year (Maintenance Free)
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // 2. Intersection Observer for Scroll Animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-up').forEach((el) => {
+                observer.observe(el);
+            });
+
+            // 3. Toggle Mobile Menu
             btn.addEventListener('click', () => {
                 const isExpanded = btn.getAttribute('aria-expanded') === 'true';
                 btn.setAttribute('aria-expanded', !isExpanded);
                 nav.classList.toggle('is-open');
             });
 
-            // Close menu when clicking a link
+            // 4. Close menu when clicking a link
             links.forEach(link => {
                 link.addEventListener('click', () => {
                     if (window.innerWidth < 768) {
@@ -757,7 +832,7 @@
                 });
             });
 
-            // Close menu on Escape key
+            // 5. Close menu on Escape key (A11y)
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && nav.classList.contains('is-open')) {
                     nav.classList.remove('is-open');
@@ -765,8 +840,29 @@
                     btn.focus();
                 }
             });
-            
-            // Note: Smooth scrolling is handled natively via CSS scroll-behavior
+
+            // 6. Click outside to close menu
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('is-open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+                    nav.classList.remove('is-open');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // 7. Form Handling with Honeypot Check
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const honeypot = document.getElementById('honeypot');
+                
+                // If honeypot is filled, it's a bot. Fail silently.
+                if (honeypot && honeypot.value !== "") {
+                    console.warn("Bot detected.");
+                    return; 
+                }
+
+                alert('Thank you! This is a demo form. Secure submission simulated.');
+                form.reset();
+            });
         });
     </script>
 </body>
