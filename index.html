@@ -33,7 +33,7 @@
             --primary-light: #eff6ff;
             --secondary: #0f172a;
             --text-main: #1e293b;
-            --text-muted: #475569; 
+            --text-muted: #475569; /* Contrast 7.3:1 on white (AAA) */
             --bg-body: #ffffff;
             --bg-alt: #f8fafc;
             --border: #e2e8f0;
@@ -67,7 +67,6 @@
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* FIX 1: scroll-padding-top ensures content isn't hidden behind fixed nav */
         html { 
             scroll-behavior: smooth; 
             scroll-padding-top: calc(var(--nav-height) + 1rem); 
@@ -210,7 +209,8 @@
         .contact-circle { width: 3rem; height: 3rem; border-radius: 50%; background: #dbeafe; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .contact-circle svg { width: 1.5rem; height: 1.5rem; color: var(--primary); }
         .contact-label { font-weight: 600; margin-bottom: 0.25rem; }
-        .contact-sub { font-size: 0.75rem; margin-top: 0.25rem; color: #94a3b8; }
+        /* FIXED: Changed color from #94a3b8 to var(--text-muted) to improve contrast on white background */
+        .contact-sub { font-size: 0.75rem; margin-top: 0.25rem; color: var(--text-muted); }
         
         /* Form */
         form { background: var(--white); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
@@ -225,17 +225,20 @@
         footer { background: var(--secondary); color: #cbd5e1; padding: 4rem 0 2rem; border-top: 1px solid var(--text-main); }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
         .footer-logo { color: var(--white); margin-bottom: 1rem; display: inline-flex; }
-        .footer-desc { color: #94a3b8; font-size: var(--text-sm); line-height: 1.6; }
+        /* FIXED: Changed from #94a3b8 to #cbd5e1 for better contrast on dark footer */
+        .footer-desc { color: #cbd5e1; font-size: var(--text-sm); line-height: 1.6; }
         .footer-title { color: var(--white); font-weight: 600; margin-bottom: 1rem; font-size: var(--text-base); }
         
         .footer-list { list-style: none; padding: 0; margin: 0; }
         .footer-list li { margin-bottom: 0.5rem; }
-        .footer-link { display: inline-block; padding: 0.25rem 0; color: #94a3b8; transition: color 0.2s; font-size: var(--text-sm); }
+        /* FIXED: Changed from #94a3b8 to #cbd5e1 for better contrast on dark footer */
+        .footer-link { display: inline-block; padding: 0.25rem 0; color: #cbd5e1; transition: color 0.2s; font-size: var(--text-sm); }
         .footer-link:hover { color: #60a5fa; }
         
         .text-alert { color: #ef4444; }
         .social-box { display: flex; gap: 0.75rem; }
-        .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; background: var(--text-main); border-radius: 50%; color: #94a3b8; transition: all 0.2s; }
+        /* FIXED: Changed from #94a3b8 to #e2e8f0 for better contrast on dark button background */
+        .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; background: var(--text-main); border-radius: 50%; color: #e2e8f0; transition: all 0.2s; }
         .social-btn:hover { background: var(--primary); color: var(--white); transform: translateY(-2px); }
         .footer-copy { padding-top: 2rem; border-top: 1px solid var(--text-main); text-align: center; font-size: 0.875rem; color: var(--text-muted); }
 
@@ -327,7 +330,6 @@
     
     <main id="main">
         <section class="hero" aria-labelledby="hero-h">
-            <!-- Responsive Hero Image using srcset for LCP optimization -->
             <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1920" 
                  srcset="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=640 640w,
                          https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1280 1280w,
